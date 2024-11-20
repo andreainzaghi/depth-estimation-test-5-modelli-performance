@@ -47,9 +47,8 @@ Thumbs.db
 
 # Ignora immagini di test e validazione
 **/img&val/
-*.jpg
-*.jpeg
-*.png
+
+
 *.bmp
 *.tiff
 
