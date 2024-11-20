@@ -40,13 +40,10 @@ Thumbs.db
 .vscode/
 
 # Ignora cartelle di output dei modelli
-**/output/
-**/results/
-**/depth_maps/
-**/inference/
+
 
 # Ignora immagini di test e validazione
-**/img&val/
+
 
 
 *.bmp
