@@ -1,0 +1,62 @@
+# Ignora l'ambiente virtuale
+venv/
+VENV/
+.env/
+
+# Ignora i file di modelli e pesi
+*.pth
+*.pt
+*.ckpt
+**/checkpoints/
+**/models/
+**/weights/
+**/saved_models/
+
+# Ignora file temporanei o di backup
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+
+# Ignora file di cache e compilazione
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignora file di log
+*.log
+logs/
+**/logs/
+
+# Ignora file generati da Jupyter Notebook
+.ipynb_checkpoints/
+
+# Ignora file specifici di sistema
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Ignora cartelle di output dei modelli
+**/output/
+**/results/
+**/depth_maps/
+**/inference/
+
+# Ignora immagini di test e validazione
+**/img&val/
+*.jpg
+*.jpeg
+*.png
+*.bmp
+*.tiff
+
+# Ignora file di configurazione non necessari
+*.ini
+*.cfg
+
+# Ignora file specifici di macchine Windows o Linux
+*.~lock.*
+*.bak~
