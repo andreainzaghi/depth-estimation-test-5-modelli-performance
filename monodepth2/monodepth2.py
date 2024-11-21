@@ -119,6 +119,23 @@ def test_simple():
                 name_dest_npy = os.path.join(output_directory, "{}_disp.npy".format(output_name))
                 np.save(name_dest_npy, scaled_disp.cpu().numpy())
 
+                            # Generazione del file CSV
+            print("   Generazione del file CSV...")
+            csv_output_path = os.path.join(output_directory, "{}_depth.csv".format(output_name))
+            depth_np = depth.squeeze().cpu().numpy() if pred_metric_depth else scaled_disp.squeeze().cpu().numpy()
+            h, w = depth_np.shape
+            uvz_data = []
+
+            for u in range(h):
+                for v in range(w):
+                    uvz_data.append([u, v, depth_np[u, v]])
+
+            # Salva il CSV
+            import pandas as pd
+            pd.DataFrame(uvz_data, columns=['u', 'v', 'z']).to_csv(csv_output_path, index=False)
+            print("   - {}".format(csv_output_path))
+
+
             # Salvataggio immagine colormap
             disp_resized_np = disp_resized.squeeze().cpu().numpy()
             vmax = np.percentile(disp_resized_np, 95)

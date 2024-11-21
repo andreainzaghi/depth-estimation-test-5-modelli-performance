@@ -35,10 +35,31 @@ def create_depth_map(image_path, output_path):
     prediction = model.infer(image)
     depth = prediction["depth"].cpu().numpy()
 
+    print(f"Forma del depth tensor: {depth.shape}")  # Debug
+
     # Normalizzazione e salvataggio della mappa di profondità
     depth_image = Image.fromarray((depth * 255 / depth.max()).astype("uint8"))
     depth_image.save(output_path)
     print(f"Mappa di profondità salvata in: {output_path}")
+
+    # Generazione del file CSV
+    print("Generazione del file CSV...")
+    if depth.ndim == 3:
+        depth = depth[0]  # Rimuove la dimensione batch se presente
+    height, width = depth.shape
+    uvz_data = []
+
+    for u in range(height):
+        for v in range(width):
+            uvz_data.append([u, v, depth[u, v]])
+
+    # Salvataggio del file CSV
+    csv_output_path = os.path.splitext(output_path)[0] + "_depth.csv"
+    import pandas as pd
+    pd.DataFrame(uvz_data, columns=['u', 'v', 'z']).to_csv(csv_output_path, index=False)
+    print(f"File CSV salvato in: {csv_output_path}")
+
+    
 
 if __name__ == "__main__":
     # Percorsi configurabili

@@ -142,4 +142,22 @@ with torch.no_grad():
         colored_save_path = os.path.join(output_dir_color, f"{pred_name_base}_colored.png")
         depth_colored.save(colored_save_path)
 
+                # Genera file CSV con uvz
+        logging.info(f"Generando file CSV per {rgb_name_base}...")
+        h, w = depth_pred.shape
+        uvz_data = []
+
+        for u in range(h):
+            for v in range(w):
+                uvz_data.append([u, v, depth_pred[u, v]])
+
+        # Percorso del file CSV
+        csv_save_path = os.path.join(OUTPUT_DIR, f"{pred_name_base}_depth.csv")
+
+        # Salva il CSV
+        import pandas as pd
+        pd.DataFrame(uvz_data, columns=['u', 'v', 'z']).to_csv(csv_save_path, index=False)
+        logging.info(f"File CSV salvato in {csv_save_path}")
+
+
 logging.info("Depth estimation completed successfully!")
