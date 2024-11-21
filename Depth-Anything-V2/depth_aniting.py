@@ -2,7 +2,8 @@ import os
 import cv2
 import torch
 from depth_anything_v2.dpt import DepthAnythingV2
-
+import numpy as np
+import pandas as pd
 def generate_depth_map(image_path, output_path, model_checkpoint):
     """
     Genera una mappa di profondità per un'immagine e la salva nel percorso specificato.
@@ -40,9 +41,24 @@ def generate_depth_map(image_path, output_path, model_checkpoint):
     depth_map_uint8 = depth_map_normalized.astype("uint8")
 
     # Salva la mappa di profondità
+   
+    # Salva la mappa di profondità
     print(f"Salvataggio della mappa di profondità in {output_path}...")
     cv2.imwrite(output_path, depth_map_uint8)
-    print("Mappa di profondità salvata con successo.")
+
+    # Converte la mappa di profondità in un array numpy e salva come CSV
+    print("Conversione della mappa di profondità in un array numpy e salvataggio come CSV...")
+    h, w = depth_map.shape
+    uvz_data = []
+    for u in range(h):
+        for v in range(w):
+            uvz_data.append([u, v, depth_map[u, v]])
+
+    # Salvataggio in formato CSV
+    csv_output_path = os.path.splitext(image_path)[0] + "_depth.csv"
+    uvz_array = np.array(uvz_data)
+    pd.DataFrame(uvz_array, columns=['u', 'v', 'z']).to_csv(csv_output_path, index=False)
+    print(f"File CSV salvato in {csv_output_path}.")
 
 if __name__ == "__main__":
     # Percorso dell'immagine di input

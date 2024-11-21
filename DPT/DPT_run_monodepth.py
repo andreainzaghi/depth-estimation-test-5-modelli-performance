@@ -173,6 +173,24 @@ def run(input_path, output_path, model_path, model_type="dpt_hybrid", optimize=T
         )
         util.io.write_depth(filename, prediction, bits=2, absolute_depth=args.absolute_depth)
 
+                # Salva la mappa di profondità in formato CSV
+        print(f"Salvataggio del file CSV per {filename}...")
+        h, w = prediction.shape
+        uvz_data = []
+
+        for u in range(h):
+            for v in range(w):
+                uvz_data.append([u, v, prediction[u, v]])
+
+        # Percorso del file CSV
+        csv_output_path = f"{filename}_depth.csv"
+
+        # Salvataggio come CSV
+        import pandas as pd
+        pd.DataFrame(uvz_data, columns=['u', 'v', 'z']).to_csv(csv_output_path, index=False)
+        print(f"File CSV salvato in {csv_output_path}.")
+
+
     print("finished")
 
 
