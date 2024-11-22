@@ -11,7 +11,7 @@ from marigold import MarigoldPipeline
 
 # -------------------- Configurazioni fisse --------------------
 CHECKPOINT_PATH = "checkpoint/marigold-v1-0"  # Percorso predefinito del checkpoint
-INPUT_RGB_DIR = "img"  # Cartella predefinita delle immagini
+INPUT_RGB_DIR = "img&val"  # Cartella predefinita delle immagini
 OUTPUT_DIR = "output/depth_map"  # Cartella predefinita per l'output
 
 DENOISE_STEPS = 4  # Passi di denoising
@@ -149,7 +149,7 @@ with torch.no_grad():
 
         for u in range(h):
             for v in range(w):
-                uvz_data.append([u, v, depth_pred[u, v]])
+                uvz_data.append([u, v, depth_pred[u, v]*82.3247])
 
         # Percorso del file CSV
         csv_save_path = os.path.join(OUTPUT_DIR, f"{pred_name_base}_depth.csv")

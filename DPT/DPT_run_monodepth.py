@@ -198,7 +198,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
-        "-i", "--input_path", default="input", help="folder with input images"
+        "-i", "--input_path", default="img&val", help="folder with input images"
     )
 
     parser.add_argument(
